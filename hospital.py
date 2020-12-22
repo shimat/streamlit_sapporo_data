@@ -35,10 +35,10 @@ def load_data():
 
 df = load_data().copy() \
         .drop(columns=["名称＿カナ", "方書", "備考", "市町村名", "電話番号", "都道府県名"])
-#df = pd.json_normalize(response_json, record_path=["result", "records"])
-#df.drop(columns="_id", inplace=True)
-#df.set_index("日付", inplace=True)
-#df["日付"] = df["日付"].map(lambda x: x)
+df.drop(columns="_id", inplace=True)
+df.set_index("ＮＯ", inplace=True)
+df.sort_index(axis=1, ascending=False, inplace=True)
+
 
 WARD_COLORS = {
     1101: [255, 32, 32, 160],
@@ -54,9 +54,11 @@ WARD_COLORS = {
 }
 df["ward_color"] = df["区コード"].apply(lambda x: WARD_COLORS[x])
 
+st.title("札幌市内の医療機関一覧")
 st.write(df)
 #print(df)
 
+"区ごとの色分け"
 st.pydeck_chart(pdk.Deck(
     map_style='mapbox://styles/mapbox/streets-v11',
     initial_view_state=pdk.ViewState(
@@ -76,6 +78,7 @@ st.pydeck_chart(pdk.Deck(
     ],
 ))
 
+"位置によるヒートマップ"
 st.pydeck_chart(pdk.Deck(
     map_style='mapbox://styles/mapbox/light-v10',
     initial_view_state=pdk.ViewState(
@@ -96,6 +99,7 @@ st.pydeck_chart(pdk.Deck(
     ],
 ))
 
+"病床数によるヒートマップ"
 st.pydeck_chart(pdk.Deck(
     map_style='mapbox://styles/mapbox/light-v10',
     initial_view_state=pdk.ViewState(
