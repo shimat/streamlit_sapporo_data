@@ -10,7 +10,7 @@ class MyDecoder(json.JSONDecoder):
         return self._decode(result)
 
     def _decode(self, o):
-        if isinstance(o, str):            
+        if isinstance(o, str):
             try:
                 if '.' in o:
                     return float(o)
