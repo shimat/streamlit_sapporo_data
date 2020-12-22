@@ -1,7 +1,8 @@
+import json
+import re
 import streamlit as st
 import pandas as pd
 import requests
-import json
 
 class MyDecoder(json.JSONDecoder):
     def decode(self, s):
@@ -38,5 +39,8 @@ df = load_data().copy() \
         .set_index("日付") \
         .drop(columns="_id")
 
+st.title("札幌市内の新型コロナウイルス(COVID-19)陽性患者数")
 st.write(df)
 st.line_chart(df)
+
+"(出典: DATA-SMART CITY SAPPORO https://data.pf-sapporo.jp/)"
